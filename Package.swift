@@ -17,6 +17,10 @@ let package = Package(
             targets: ["TunnelKit"]
         ),
         .library(
+            name: "TunnelKitManager",
+            targets: ["TunnelKitManager"]
+        ),
+        .library(
             name: "TunnelKitOpenVPN",
             targets: ["TunnelKitOpenVPN"]
         ),
