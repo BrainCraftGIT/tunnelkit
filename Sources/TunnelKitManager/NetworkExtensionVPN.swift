@@ -266,13 +266,9 @@ public class NetworkExtensionVPN: VPN {
             log.verbose("Ignoring VPN notification from bogus manager")
             return
         }
-        guard let bundleId = connection.manager.tunnelBundleIdentifier else {
-            print("bundleId is nil")
-            return
-        }
-        log.debug("VPN status did change (\(bundleId)): isEnabled=\(connection.manager.isEnabled), status=\(connection.status.rawValue)")
+        
+        log.debug("VPN status did change: isEnabled=\(connection.manager.isEnabled), status=\(connection.status.rawValue)")
         var notification = Notification(name: VPNNotification.didChangeStatus)
-        notification.vpnBundleIdentifier = bundleId
         notification.vpnIsEnabled = connection.manager.isEnabled
         notification.vpnStatus = connection.status.wrappedStatus
         notification.connectionDate = connection.connectedDate
