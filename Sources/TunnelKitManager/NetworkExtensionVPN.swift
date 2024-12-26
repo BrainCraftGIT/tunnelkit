@@ -215,6 +215,11 @@ public class NetworkExtensionVPN: VPN {
 
     @objc private func vpnDidUpdate(_ notification: Notification) {
         guard let connection = notification.object as? NETunnelProviderSession else {
+            guard let connection = notification.object as? NEVPNConnection else {
+                return
+            }
+            
+            notifyStatus(connection)
             return
         }
         notifyStatus(connection)
@@ -245,6 +250,24 @@ public class NetworkExtensionVPN: VPN {
             return
         }
         guard let bundleId = connection.manager.tunnelBundleIdentifier else {
+            return
+        }
+        log.debug("VPN status did change (\(bundleId)): isEnabled=\(connection.manager.isEnabled), status=\(connection.status.rawValue)")
+        var notification = Notification(name: VPNNotification.didChangeStatus)
+        notification.vpnBundleIdentifier = bundleId
+        notification.vpnIsEnabled = connection.manager.isEnabled
+        notification.vpnStatus = connection.status.wrappedStatus
+        notification.connectionDate = connection.connectedDate
+        NotificationCenter.default.post(notification)
+    }
+    
+    private func notifyStatus(_ connection: NEVPNConnection) {
+        guard let _ = connection.manager.localizedDescription else {
+            log.verbose("Ignoring VPN notification from bogus manager")
+            return
+        }
+        guard let bundleId = connection.manager.tunnelBundleIdentifier else {
+            print("bundleId is nil")
             return
         }
         log.debug("VPN status did change (\(bundleId)): isEnabled=\(connection.manager.isEnabled), status=\(connection.status.rawValue)")
