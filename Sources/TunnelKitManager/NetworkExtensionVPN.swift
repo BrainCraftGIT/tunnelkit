@@ -44,6 +44,21 @@ public class NetworkExtensionVPN: VPN {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    public func getConnectionDetails() async throws -> (status: NEVPNStatus?, localizedDescription: String?, serverAddress: String?) {
+        let managers = try await lookupAll()
+        guard let manager = managers.first else {
+            return (nil, nil, nil)
+        }
+        
+        let connection = manager.connection
+
+        let status = connection.status
+        let localizedDescription = manager.localizedDescription
+        let serverAddress = manager.protocolConfiguration?.serverAddress
+        
+        return (status, localizedDescription, serverAddress)
+    }
 
     // MARK: Public
 
