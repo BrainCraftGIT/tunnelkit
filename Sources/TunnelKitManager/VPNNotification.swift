@@ -86,10 +86,11 @@ extension Notification {
     }
 
     /// The triggered VPN error.
-    public var vpnError: Error {
+    public var vpnError: Error? {
         get {
             guard let vpnError = userInfo?["Error"] as? Error else {
-                fatalError("Notification has no vpnError")
+                print("Notification has no vpnError")
+                return nil
             }
             return vpnError
         }
