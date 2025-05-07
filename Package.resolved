@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "openssl-apple",
+      "identity" : "openssl",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/passepartoutvpn/openssl-apple",
+      "location" : "https://github.com/krzyzanowskim/OpenSSL.git",
       "state" : {
-        "revision" : "685680e3adbfccdeef84d37fc5732b0031f188c7",
-        "version" : "3.2.108"
+        "revision" : "623c84da314e85363236507ca38a4bde65df21c3",
+        "version" : "3.3.3001"
       }
     },
     {
